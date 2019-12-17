@@ -1,6 +1,7 @@
 import { setDefaultTimeout, After, Before } from 'cucumber'
 import { createSession, closeSession, client } from 'nightwatch-api'
 import { rollbackConfigs, setConfigs, cacheConfigs } from './helpers/config'
+import { checkConsoleErrors } from './helpers/browserConsole.js'
 
 setDefaultTimeout(180000)
 
@@ -20,6 +21,7 @@ Before(async () => {
 })
 
 After(async () => {
+  await checkConsoleErrors()
   await closeSession()
   await rollbackConfigs()
 })

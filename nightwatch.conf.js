@@ -56,7 +56,8 @@ module.exports = {
         chromeOptions: {
           args: ['disable-gpu'],
           w3c: false
-        }
+        },
+        loggingPrefs: { browser: 'ALL' }
       }
     },
     drone: {
@@ -90,7 +91,8 @@ module.exports = {
         },
         tunnelIdentifier: SAUCELABS_TUNNEL_NAME,
         idleTimeout: 180,
-        screenResolution: SAUCE_USERNAME ? '1280x1024' : undefined
+        screenResolution: SAUCE_USERNAME ? '1280x1024' : undefined,
+        loggingPrefs: { browser: 'ALL' }
       }
     }
   }
