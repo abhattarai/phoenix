@@ -29,7 +29,7 @@
         :items="fileData"
         :item-size="70"
         v-slot="{ item, index, active }"
-        v-if="!loading"
+        v-if="!loading && fileData.length"
         :key="fileData.length"
       >
         <div
