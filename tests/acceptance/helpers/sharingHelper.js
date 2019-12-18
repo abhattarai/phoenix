@@ -1,6 +1,6 @@
 const { client } = require('nightwatch-api')
 const httpHelper = require('./httpHelper')
-const { normalize } = require('./path')
+const { normalize, join } = require('./path')
 
 const fetch = require('node-fetch')
 const assert = require('assert')
@@ -69,9 +69,9 @@ module.exports = {
       const date = new Date()
       date.setDate(date.getDate() + dateString)
       dateString = date.getFullYear() + '-' +
-                   String((date.getMonth() + 1)).padStart(2, '0') + '-' +
-                   String(date.getDate()).padStart(2, '0') +
-                   ' 00:00:00'
+        String((date.getMonth() + 1)).padStart(2, '0') + '-' +
+        String(date.getDate()).padStart(2, '0') +
+        ' 00:00:00'
     }
     return dateString
   },
@@ -85,11 +85,14 @@ module.exports = {
   assertUserHasShareWithDetails: function (user, expectedDetailsTable, sharedWithThisUser = false) {
     const headers = httpHelper.createAuthHeader(user)
     const sharingHelper = this
-    let apiURL = client.globals.backend_url + '/ocs/v2.php/apps/files_sharing/api/v1/shares?format=json'
+    let apiURL = join(client.globals.backend_url, '/ocs/v2.php/apps/files_sharing/api/v1/shares?format=json')
     if (sharedWithThisUser === true) {
       apiURL = apiURL + '&shared_with_me=true'
     }
-    return fetch(apiURL, { method: 'GET', headers: headers })
+    return fetch(apiURL, {
+      method: 'GET',
+      headers: headers
+    })
       .then(res => res.json())
       .then(function (sharesResult) {
         httpHelper.checkOCSStatus(sharesResult, 'Could not get shares. Message: ' + sharesResult.ocs.meta.message)
@@ -131,10 +134,13 @@ module.exports = {
   fetchLastPublicLinkShare: async function (linkCreator) {
     const self = this
     const headers = httpHelper.createAuthHeader(linkCreator)
-    const apiURL = client.globals.backend_url + '/ocs/v2.php/apps/files_sharing/api/v1/shares?format=json'
+    const apiURL = join(client.globals.backend_url, '/ocs/v2.php/apps/files_sharing/api/v1/shares?format=json')
     let lastShareToken
     let lastShare
-    await fetch(apiURL, { method: 'GET', headers: headers })
+    await fetch(apiURL, {
+      method: 'GET',
+      headers: headers
+    })
       .then(res => res.json())
       .then(function (sharesResult) {
         httpHelper.checkOCSStatus(sharesResult, 'Could not get shares. Message: ' + sharesResult.ocs.meta.message)
@@ -162,8 +168,11 @@ module.exports = {
   getAllPublicLinkShares: async function (sharer) {
     const headers = httpHelper.createAuthHeader(sharer)
     const data = []
-    const apiURL = client.globals.backend_url + '/ocs/v2.php/apps/files_sharing/api/v1/shares?&format=json'
-    const response = await fetch(apiURL, { method: 'GET', headers: headers })
+    const apiURL = join(client.globals.backend_url, '/ocs/v2.php/apps/files_sharing/api/v1/shares?&format=json')
+    const response = await fetch(apiURL, {
+      method: 'GET',
+      headers: headers
+    })
     const jsonResponse = await response.json()
     httpHelper.checkOCSStatus(jsonResponse, 'Could not get shares. Message: ' + jsonResponse.ocs.meta.message)
     for (const share of jsonResponse.ocs.data) {
@@ -185,9 +194,8 @@ module.exports = {
     if (sharedWithUser === true) {
       sharedWithMeText = '&shared_with_me=true'
     }
-    const apiURL = client.globals.backend_url +
-                   '/ocs/v2.php/apps/files_sharing/api/v1/shares?format=json&state=all' +
-                   sharedWithMeText
+    const apiURL = join(client.globals.backend_url,
+      '/ocs/v2.php/apps/files_sharing/api/v1/shares?format=json&state=all') + sharedWithMeText
     return fetch(apiURL,
       {
         method: 'GET',
@@ -229,8 +237,8 @@ module.exports = {
     for (const element of elementsToDecline) {
       const shareID = element.id
       const headers = httpHelper.createAuthHeader(user)
-      const apiURL = client.globals.backend_url +
-                    '/ocs/v2.php/apps/files_sharing/api/v1/shares/pending/' + shareID + '?format=json'
+      const apiURL = join(client.globals.backend_url, '/ocs/v2.php/apps/files_sharing/api/v1/shares/pending/', shareID,
+        '?format=json')
       return fetch(apiURL,
         {
           method: 'DELETE',
@@ -266,8 +274,8 @@ module.exports = {
     for (const element of elementsToAccept) {
       const shareID = element.id
       const headers = httpHelper.createAuthHeader(user)
-      const apiURL = client.globals.backend_url +
-                      '/ocs/v2.php/apps/files_sharing/api/v1/shares/pending/' + shareID + '?format=json'
+      const apiURL = join(client.globals.backend_url, '/ocs/v2.php/apps/files_sharing/api/v1/shares/pending/',
+        shareID, '?format=json')
       return fetch(apiURL,
         {
           method: 'POST',
