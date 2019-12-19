@@ -237,8 +237,8 @@ module.exports = {
     for (const element of elementsToDecline) {
       const shareID = element.id
       const headers = httpHelper.createAuthHeader(user)
-      const apiURL = join(client.globals.backend_url, '/ocs/v2.php/apps/files_sharing/api/v1/shares/pending/', shareID,
-        '?format=json')
+      const apiURL = join(client.globals.backend_url, '/ocs/v2.php/apps/files_sharing/api/v1/shares/pending/'
+        , shareID) + '?format=json'
       return fetch(apiURL,
         {
           method: 'DELETE',
@@ -275,7 +275,7 @@ module.exports = {
       const shareID = element.id
       const headers = httpHelper.createAuthHeader(user)
       const apiURL = join(client.globals.backend_url, '/ocs/v2.php/apps/files_sharing/api/v1/shares/pending/',
-        shareID, '?format=json')
+        shareID) + '?format=json'
       return fetch(apiURL,
         {
           method: 'POST',
