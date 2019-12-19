@@ -225,7 +225,8 @@ exports.getSkeletonFile = function (filename) {
 
 exports.uploadFileWithContent = function (user, content, filename) {
   const headers = httpHelper.createAuthHeader(user)
-  return fetch(join(client.globals.backend_url, '/remote.php/webdav/', filename),
+  const apiURL = join(client.globals.backend_url, '/remote.php/webdav/', filename)
+  return fetch(apiURL,
     {
       headers: {
         'Content-Type': 'text/plain',

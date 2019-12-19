@@ -31,7 +31,7 @@ When('the user declines all shares displayed in the notifications on the webUI',
 
 Given('app {string} has been enabled', function (app) {
   const headers = httpHelper.createAuthHeader('admin')
-  const apiURL = join(client.globals.backend_url, '/ocs/v2.php/cloud/apps/', app) + '?format=json'
+  const apiURL = join(client.globals.backend_url, '/ocs/v2.php/cloud/apps/', app, '?format=json')
   return fetch(apiURL, {
     headers,
     body: {},
