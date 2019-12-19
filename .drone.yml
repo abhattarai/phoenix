@@ -4188,8 +4188,6 @@ volumes:
   temp: {}
 
 trigger:
-  event:
-  - cron
   ref:
   - refs/tags/**
   - refs/pull/**
@@ -4359,8 +4357,6 @@ volumes:
   temp: {}
 
 trigger:
-  event:
-  - cron
   ref:
   - refs/tags/**
   - refs/pull/**
