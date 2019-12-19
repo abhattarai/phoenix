@@ -23,6 +23,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - yarn run lint
+  - echo "JankariTech"
 
 trigger:
   ref:
