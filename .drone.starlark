@@ -438,6 +438,7 @@ def phoenixService():
 		},
 		'commands': [
 			'mkdir dist',
+			'pwd',
 			'/usr/local/bin/apachectl -e debug -D FOREGROUND',
 		]
 	}]
