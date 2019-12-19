@@ -433,6 +433,7 @@ module.exports = {
       await this
         .useXpath()
         .getAttribute(linkSelector, 'filename', function (result) {
+          console.log(result.value)
           this.assert.strictEqual(result.value, fileName, 'displayed file name not as expected')
         })
         .useCss()

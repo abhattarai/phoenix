@@ -9,8 +9,9 @@ const { join } = require('../helpers/path')
 When('user {string} is sent a notification', function (user) {
   const body = new URLSearchParams()
   body.append('user', user)
+  const apiURL = join(client.globals.backend_url, '/ocs/v2.php/apps/testing/api/v1/notifications')
 
-  return fetch(join(client.globals.backend_url, '/ocs/v2.php/apps/testing/api/v1/notifications'),
+  return fetch(apiURL,
     { method: 'POST', headers: httpHelper.createAuthHeader(user), body: body }
   )
     .then(res => httpHelper.checkStatus(res, 'Could not generate notification.'))
@@ -30,7 +31,8 @@ When('the user declines all shares displayed in the notifications on the webUI',
 
 Given('app {string} has been enabled', function (app) {
   const headers = httpHelper.createAuthHeader('admin')
-  return fetch(join(client.globals.backend_url, '/ocs/v2.php/cloud/apps/', app) + '?format=json', {
+  const apiURL = join(client.globals.backend_url, '/ocs/v2.php/cloud/apps/', app) + '?format=json'
+  return fetch(apiURL, {
     headers,
     body: {},
     method: 'POST'

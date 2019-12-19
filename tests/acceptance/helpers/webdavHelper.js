@@ -14,8 +14,8 @@ const occHelper = require('../helpers/occHelper')
  * @param {string} server - (REMOTE/LOCAL) server to use for dav path
  */
 exports.createDavPath = function (userId, element) {
-  return join(backendHelper.getCurrentBackendUrl(), '/remote.php/dav/files/', userId,
-    encodeURIComponent(element).replace(/%2F/g, '/'))
+  const replaceEncoded = encodeURIComponent(element).replace(/%2F/g, '/')
+  return join(backendHelper.getCurrentBackendUrl(), '/remote.php/dav/files/', userId, replaceEncoded)
 }
 
 /**
@@ -208,10 +208,14 @@ exports.getSkeletonFile = function (filename) {
     .then(dir => {
       const headers = httpHelper.createAuthHeader('admin')
       const element = join(dir.trim(), filename)
-      return fetch(
-        join(client.globals.backend_url,
-          `/ocs/v2.php/apps/testing/api/v1/file?file=${encodeURIComponent(element)}&absolute=true&format=json`),
-        { method: 'GET', headers })
+      const apiURL = join(client.globals.backend_url,
+        '/ocs/v2.php/apps/testing/api/v1/file', `?file=${encodeURIComponent(element)}&absolute=true&format=json`)
+      return fetch(apiURL,
+        {
+          method: 'GET',
+          headers
+        }
+      )
     })
     .then(res => res.json())
     .then(body => {
@@ -221,15 +225,15 @@ exports.getSkeletonFile = function (filename) {
 
 exports.uploadFileWithContent = function (user, content, filename) {
   const headers = httpHelper.createAuthHeader(user)
-  return fetch(join(client.globals.backend_url,
-    '/remote.php/webdav/', filename), {
-    headers: {
-      'Content-Type': 'text/plain',
-      ...headers
-    },
-    method: 'PUT',
-    body: content
-  })
+  return fetch(join(client.globals.backend_url, '/remote.php/webdav/', filename),
+    {
+      headers: {
+        'Content-Type': 'text/plain',
+        ...headers
+      },
+      method: 'PUT',
+      body: content
+    })
     .then(res => httpHelper.checkStatus(res, 'Could not upload file' + filename + 'with content' + content))
 }
 
