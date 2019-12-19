@@ -195,7 +195,7 @@ module.exports = {
       sharedWithMeText = '&shared_with_me=true'
     }
     const apiURL = join(client.globals.backend_url,
-      '/ocs/v2.php/apps/files_sharing/api/v1/shares?format=json&state=all') + sharedWithMeText
+      '/ocs/v2.php/apps/files_sharing/api/v1/shares?format=json&state=all', sharedWithMeText)
     return fetch(apiURL,
       {
         method: 'GET',
