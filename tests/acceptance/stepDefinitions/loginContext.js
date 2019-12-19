@@ -50,6 +50,7 @@ Then('the warning {string} should be displayed on the login page', async functio
 
 Then('the authentication page should be visible',
   () => {
+    console.log('JankariTech')
     const loginPage = client
       .page.loginPage()
     return loginPage
