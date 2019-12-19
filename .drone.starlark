@@ -648,7 +648,8 @@ def deployStaging():
 				'sudo docker exec phoenix occ maintenance:mode --on',
 				'sudo rsync -az --chown=www-data:www-data -r --del --exclude config.json /home/deploy/phoenix/ /var/lib/phoenix/apps/phoenix',
 				'sudo docker exec phoenix occ maintenance:mode --off',
-				'sudo docker exec phoenix owncloud migrate'
+				'sudo docker exec phoenix owncloud migrate',
+				'pwd'
 			],
 			'source': 'dist/',
 			'target': '/home/deploy/phoenix',
