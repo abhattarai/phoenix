@@ -32,7 +32,7 @@ When(
 
 When('the public uses the webUI to access the last public link created by user {string}', async function (linkCreator) {
   const lastShare = await sharingHelper.fetchLastPublicLinkShare(linkCreator)
-  console.log('Dhampus')
+  console.log('Pokhara')
   if (lastShare.permissions === sharingHelper.PERMISSION_TYPES.create) {
     return client.page.filesDropPage().navigateAndWaitTillLoaded(lastShare.token)
   }
